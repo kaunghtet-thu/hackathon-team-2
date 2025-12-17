@@ -1,22 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## AstraSemi AI Helper
+
+This is a Next.js app for the hackathon project described in `copilot.md`.
+
+### Module 1 (Operations Overview Dashboard)
+
+- Upload a CSV
+- Preview columns, row count, and sample rows
+- Get:
+    - Plain-English summary
+    - Important / unusual findings
+    - Top 3 takeaways
+
+The backend computes stats (missing values + numeric min/max/mean) and sends only those stats + a tiny sample to the AI.
 
 ## Getting Started
+
+### 1) Install
+
+```bash
+npm install
+```
+
+### 2) Configure AI (recommended)
+
+Create a file named `.env.local` in the project root (`astra-semi-ai-helper/.env.local`) and add:
+
+```bash
+OPENAI_API_KEY=your_key_here
+# optional (defaults to gpt-4o-mini)
+OPENAI_MODEL=gpt-4o-mini
+```
+
+If `OPENAI_API_KEY` is not set, the app still works but uses a local (non-AI) fallback summary.
+
+### 3) Run the dev server
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open http://localhost:3000 and upload a CSV.
+
+### API endpoint
+
+The dashboard calls:
+
+- `POST /api/ops/analyze` (multipart/form-data with field `file`)
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
