@@ -17,6 +17,11 @@ export default function DocsPage() {
 					Beginner-friendly language only.
 				</p>
 			</header>
+			<div className="text-center">
+				<a href="/docs/glossary" className="text-blue-500 hover:underline">
+					View Semiconductor Glossary
+				</a>
+			</div>
 			<div className="rounded-2xl border border-dashed border-border bg-surface p-10 text-center text-sm text-muted-foreground">
 				Coming soon. This page will include a simple text input and an
 				AI-generated response with structured sections.
