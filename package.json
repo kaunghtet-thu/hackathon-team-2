@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"next": "16.0.10",
+		"openai": "^6.14.0",
 		"papaparse": "^5.5.3",
 		"sharp": "^0.33.3",
 		"react": "19.2.1",
