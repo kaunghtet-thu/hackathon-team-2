@@ -9,6 +9,7 @@ const nav = [
 	{ href: "/ops", label: "Operations" },
 	{ href: "/docs", label: "Documents" },
 	{ href: "/images", label: "Images" },
+    { href: "/audio", label: "Audio" },
 ];
 
 function clsx(...parts: Array<string | false | null | undefined>): string {

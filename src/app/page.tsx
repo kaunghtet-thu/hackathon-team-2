@@ -32,11 +32,17 @@ export default function Home() {
 						>
 							Images
 						</Link>
+						<Link
+							href="/audio"
+							className="inline-flex items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground hover:bg-background"
+						>
+							Audio
+						</Link>
 					</div>
 				</div>
 			</section>
 
-			<section className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-3">
+			<section className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-4">
 				<Link
 					aria-label="Open Operations Overview module"
 					href="/ops"
@@ -87,6 +93,25 @@ export default function Home() {
 							</svg>
 						</span>
 						<h2 className="text-lg font-semibold">Image Identifier</h2>
+					</div>
+					<div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-transform">
+						Open module <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+					</div>
+				</Link>
+				<Link
+					aria-label="Open Audio Transcriber module"
+					href="/audio"
+					className="group relative block rounded-2xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-foreground/10 hover:border-foreground/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+				>
+					<div className="flex items-start gap-3">
+						<span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background">
+							<svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+								<rect x="9" y="4" width="6" height="10" rx="3" />
+								<path d="M12 14v4" />
+								<path d="M8 11a4 4 0 0 0 8 0" />
+							</svg>
+						</span>
+						<h2 className="text-lg font-semibold">Audio Transcriber</h2>
 					</div>
 					<div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-transform">
 						Open module <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
