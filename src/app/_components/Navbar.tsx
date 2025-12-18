@@ -23,12 +23,12 @@ export default function Navbar() {
 		<header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur">
 			<div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
 				<div className="flex items-center gap-3">
-					<div
+					{/*<div
 						className="h-6 w-6 rounded bg-foreground"
 						aria-hidden
-					/>
+					/>*/}
 					<span className="text-sm font-semibold tracking-tight text-foreground">
-						AstraSemi AI Helper
+						Astra Assist
 					</span>
 				</div>
 				<nav className="hidden gap-1 sm:flex">
