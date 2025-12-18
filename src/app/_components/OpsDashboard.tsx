@@ -47,6 +47,34 @@ export function OpsDashboard() {
 		null,
 	);
 
+	// Collapsible sections state
+	const [open, setOpen] = useState({
+		preview: false,
+		insights: true,
+		full: false,
+		stats: false,
+	});
+	function toggle(section: keyof typeof open) {
+		setOpen((s) => ({ ...s, [section]: !s[section] }));
+	}
+
+	const Chevron = ({ open }: { open: boolean }) => (
+		<svg
+			aria-hidden="true"
+			className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${
+				open ? "rotate-180" : "rotate-0"
+			}`}
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M6 9l6 6 6-6" />
+		</svg>
+	);
+
 	const sampleColumns = useMemo(() => {
 		if (!result) return [];
 		return result.preview.columns;
@@ -203,11 +231,46 @@ export function OpsDashboard() {
 
 			{result ? (
 				<div className="mt-8 grid gap-6">
+					{/* Highlights summary from API response */}
 					<section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
-						<h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
-							Preview
-						</h2>
-						<div className="mt-3 grid gap-4 sm:grid-cols-2">
+						<h2 className="text-lg font-semibold text-foreground">Highlights</h2>
+						<div className="mt-3 grid gap-4 sm:grid-cols-3">
+							<div className="rounded-xl border border-border bg-background p-4">
+								<div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Main points</div>
+								<p className="mt-2 text-sm leading-6 text-foreground/90">{result.ai.summary}</p>
+							</div>
+							<div className="rounded-xl border border-border bg-background p-4">
+								<div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Important / unusual</div>
+								<ul className="mt-2 space-y-2 text-sm text-foreground/90">
+									{result.ai.findings.slice(0, 3).map((f, i) => (
+										<li key={i} className="flex gap-2">
+											<span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/70" />
+											<span>{f}</span>
+										</li>
+									))}
+								</ul>
+							</div>
+							<div className="rounded-xl border border-border bg-background p-4">
+								<div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Top 3 to watch</div>
+								<ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-foreground/90">
+									{result.ai.takeaways.slice(0, 3).map((t, i) => (
+										<li key={i}>{t}</li>
+									))}
+								</ol>
+							</div>
+						</div>
+					</section>
+					<section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
+						<button
+							type="button"
+							className="flex w-full items-center justify-between gap-3"
+							onClick={() => toggle("preview")}
+							aria-expanded={open.preview}
+						>
+							<span className="text-lg font-semibold text-foreground">Preview</span>
+							<Chevron open={open.preview} />
+						</button>
+						<div className={open.preview ? "mt-3 grid gap-4 sm:grid-cols-2" : "mt-3 hidden sm:grid-cols-2"}>
 							<div className="rounded-xl border border-border p-4">
 								<div className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
 									Rows
@@ -242,7 +305,7 @@ export function OpsDashboard() {
 							</div>
 						</div>
 
-						<div className="mt-6">
+						<div className={open.preview ? "mt-6" : "mt-6 hidden"}>
 							<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
 								Sample rows
 							</h3>
@@ -292,63 +355,73 @@ export function OpsDashboard() {
 					</section>
 
 					<section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
-						<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-							<h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
-								AI Insights
-							</h2>
-							{result.ai.usedFallback ? (
-								<span className="text-xs font-medium text-muted-foreground">
-									Using local fallback (set OPENAI_API_KEY to
-									enable AI)
-								</span>
-							) : result.ai.model ? (
-								<span className="text-xs font-medium text-muted-foreground">
-									Model: {result.ai.model}
-								</span>
-							) : null}
-						</div>
+						<button
+							type="button"
+							className="flex w-full items-center justify-between gap-3"
+							onClick={() => toggle("insights")}
+							aria-expanded={open.insights}
+						>
+							<span className="text-lg font-semibold text-foreground">AI Insights</span>
+							<span className="flex items-center gap-3">
+								{result.ai.usedFallback ? (
+									<span className="text-xs font-medium text-muted-foreground">
+										Using local fallback (set OPENAI_API_KEY to enable AI)
+									</span>
+								) : result.ai.model ? (
+									<span className="text-xs font-medium text-muted-foreground">
+										Model: {result.ai.model}
+									</span>
+								) : null}
+								<Chevron open={open.insights} />
+							</span>
+						</button>
 
-						<div className="mt-3 rounded-xl border border-border bg-background p-4 text-sm text-foreground/90">
-							{result.ai.summary}
-						</div>
-
-						<div className="mt-5 grid gap-6 sm:grid-cols-2">
-							<div>
-								<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
-									Important / unusual findings
-								</h3>
-								<ul className="mt-2 space-y-2 text-sm text-foreground/85">
-									{result.ai.findings.map((f, i) => (
-										<li
-											key={i}
-											className="rounded-lg border border-border p-3"
-										>
-											{f}
-										</li>
-									))}
-								</ul>
+						<div className={open.insights ? "mt-3" : "mt-3 hidden"}>
+							<div className="rounded-xl border border-border bg-background p-4 text-sm text-foreground/90">
+								{result.ai.summary}
 							</div>
 
-							<div>
-								<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
-									Top 3 takeaways
-								</h3>
-								<ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-foreground/85">
-									{result.ai.takeaways.map((t, i) => (
-										<li key={i}>{t}</li>
-									))}
-								</ol>
+							<div className="mt-5 grid gap-6 sm:grid-cols-2">
+								<div>
+									<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
+										Important / unusual findings
+									</h3>
+									<ul className="mt-2 space-y-2 text-sm text-foreground/85">
+										{result.ai.findings.map((f, i) => (
+											<li
+												key={i}
+												className="rounded-lg border border-border p-3"
+											>
+												{f}
+											</li>
+										))}
+									</ul>
+								</div>
+
+								<div>
+									<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
+										Top 3 takeaways
+									</h3>
+									<ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-foreground/85">
+										{result.ai.takeaways.map((t, i) => (
+											<li key={i}>{t}</li>
+										))}
+									</ol>
+								</div>
 							</div>
 						</div>
 					</section>
 
 					{/* Full CSV (client-side preview) */}
 					<section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
-						<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-							<h2 className="text-lg font-semibold text-foreground">
-								Full CSV
-							</h2>
-							<span className="text-xs font-medium text-muted-foreground">
+						<button
+							type="button"
+							className="flex w-full items-center justify-between gap-3"
+							onClick={() => toggle("full")}
+							aria-expanded={open.full}
+						>
+							<span className="text-lg font-semibold text-foreground">Full CSV</span>
+							<span className="flex items-center gap-3 text-xs font-medium text-muted-foreground">
 								{parsing
 									? "Parsing…"
 									: fullRows
@@ -356,66 +429,72 @@ export function OpsDashboard() {
 										: file
 											? ""
 											: "Upload a CSV to preview all rows"}
+								<Chevron open={open.full} />
 							</span>
-						</div>
+						</button>
 
-						<div className="mt-3 max-h-[480px] overflow-auto rounded-xl border border-border bg-background scroll-area">
-							{fullColumns && fullRows ? (
-								<table className="min-w-full text-left text-sm">
-									<thead className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur text-xs text-muted-foreground">
-										<tr>
-											{fullColumns.map((c) => (
-												<th
-													key={c}
-													className="whitespace-nowrap px-3 py-2"
-												>
-													{c}
-												</th>
-											))}
-										</tr>
-									</thead>
-									<tbody className="divide-y divide-border/60">
-										{fullRows.map((row, idx) => (
-											<tr
-												key={idx}
-												className="text-foreground/90"
-											>
+						<div className={open.full ? "mt-3" : "mt-3 hidden"}>
+							<div className="max-h-[480px] overflow-auto rounded-xl border border-border bg-background scroll-area">
+								{fullColumns && fullRows ? (
+									<table className="min-w-full text-left text-sm">
+										<thead className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur text-xs text-muted-foreground">
+											<tr>
 												{fullColumns.map((c) => (
-													<td
+													<th
 														key={c}
 														className="whitespace-nowrap px-3 py-2"
 													>
-														{row[c] || "—"}
-													</td>
+														{c}
+													</th>
 												))}
 											</tr>
-										))}
-									</tbody>
-								</table>
-							) : (
-								<div className="p-6 text-center text-sm text-muted-foreground">
-									{parsing
-										? "Parsing CSV…"
-										: "No CSV parsed yet."}
-								</div>
-							)}
+										</thead>
+										<tbody className="divide-y divide-border/60">
+											{fullRows.map((row, idx) => (
+												<tr
+													key={idx}
+													className="text-foreground/90"
+												>
+													{fullColumns.map((c) => (
+														<td
+															key={c}
+															className="whitespace-nowrap px-3 py-2"
+														>
+															{row[c] || "—"}
+														</td>
+													))}
+												</tr>
+											))}
+										</tbody>
+									</table>
+								) : (
+									<div className="p-6 text-center text-sm text-muted-foreground">
+										{parsing ? "Parsing CSV…" : "No CSV parsed yet."}
+									</div>
+								)}
+							</div>
+							{fullRows &&
+							result?.preview.rowCount &&
+							fullRows.length < result.preview.rowCount ? (
+								<p className="mt-2 text-xs text-muted-foreground">
+									Showing {fullRows.length.toLocaleString()} of {result.preview.rowCount.toLocaleString()} rows.
+								</p>
+							) : null}
 						</div>
-						{fullRows &&
-						result?.preview.rowCount &&
-						fullRows.length < result.preview.rowCount ? (
-							<p className="mt-2 text-xs text-muted-foreground">
-								Showing {fullRows.length.toLocaleString()} of{" "}
-								{result.preview.rowCount.toLocaleString()} rows.
-							</p>
-						) : null}
 					</section>
 
 					<section className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
-						<h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">
-							Computed stats (for transparency)
-						</h2>
+						<button
+							type="button"
+							className="flex w-full items-center justify-between gap-3"
+							onClick={() => toggle("stats")}
+							aria-expanded={open.stats}
+						>
+							<span className="text-lg font-semibold text-foreground">Computed stats (for transparency)</span>
+							<Chevron open={open.stats} />
+						</button>
 
-						<div className="mt-4 grid gap-6 sm:grid-cols-2">
+						<div className={open.stats ? "mt-4 grid gap-6 sm:grid-cols-2" : "mt-4 hidden sm:grid-cols-2"}>
 							<div>
 								<h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-50">
 									Missing values per column

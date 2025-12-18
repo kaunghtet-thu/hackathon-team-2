@@ -37,50 +37,61 @@ export default function Home() {
 			</section>
 
 			<section className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-3">
-				<div className="rounded-2xl border border-border bg-surface p-6">
-					<h2 className="text-lg font-semibold">
-						Operations Overview
-					</h2>
-					<p className="mt-2 text-sm text-muted-foreground">
-						Upload CSVs and get a plain-English summary, unusual
-						findings, and top takeaways.
-					</p>
-					<Link
-						href="/ops"
-						className="mt-4 inline-block text-sm font-medium text-foreground underline underline-offset-4"
-					>
-						Open module →
-					</Link>
-				</div>
-				<div className="rounded-2xl border border-border bg-surface p-6">
-					<h2 className="text-lg font-semibold">
-						Document Interpreter
-					</h2>
-					<p className="mt-2 text-sm text-muted-foreground">
-						Rewrite semiconductor-related text into simple,
-						understandable language — ideal for cross-functional
-						teams.
-					</p>
-					<Link
-						href="/docs"
-						className="mt-4 inline-block text-sm font-medium text-foreground underline underline-offset-4"
-					>
-						Preview module →
-					</Link>
-				</div>
-				<div className="rounded-2xl border border-border bg-surface p-6">
-					<h2 className="text-lg font-semibold">Image Identifier</h2>
-					<p className="mt-2 text-sm text-muted-foreground">
-						Upload a sample image to get a general, non-technical
-						explanation and role in the process.
-					</p>
-					<Link
-						href="/images"
-						className="mt-4 inline-block text-sm font-medium text-foreground underline underline-offset-4"
-					>
-						Preview module →
-					</Link>
-				</div>
+				<Link
+					aria-label="Open Operations Overview module"
+					href="/ops"
+					className="group relative block rounded-2xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-foreground/10 hover:border-foreground/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+				>
+					<div className="flex items-start gap-3">
+						<span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background">
+							<svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+								<rect x="3.5" y="5" width="17" height="14" rx="2" />
+								<path d="M3.5 9h17M8.5 9v10M14.5 9v10" />
+							</svg>
+						</span>
+						<h2 className="text-lg font-semibold">Operations Overview</h2>
+					</div>
+					<div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-transform">
+						Open module <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+					</div>
+				</Link>
+				<Link
+					aria-label="Open Document Interpreter module"
+					href="/docs"
+					className="group relative block rounded-2xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-foreground/10 hover:border-foreground/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+				>
+					<div className="flex items-start gap-3">
+						<span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background">
+							<svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+								<path d="M7 3.5h7l4.5 4.5V20a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 20V5A1.5 1.5 0 0 1 7 3.5z" />
+								<path d="M14 3.5V8h4.5" />
+								<path d="M8.5 12h7M8.5 15h7M8.5 18h5" />
+							</svg>
+						</span>
+						<h2 className="text-lg font-semibold">Document Interpreter</h2>
+					</div>
+					<div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-transform">
+						Open module <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+					</div>
+				</Link>
+				<Link
+					aria-label="Open Image Identifier module"
+					href="/images"
+					className="group relative block rounded-2xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-foreground/10 hover:border-foreground/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+				>
+					<div className="flex items-start gap-3">
+						<span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background">
+							<svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+								<path d="M4 8.5h3l1.5-2h7L17 8.5h3A2.5 2.5 0 0 1 22.5 11v6A2.5 2.5 0 0 1 20 19.5H4A2.5 2.5 0 0 1 1.5 17v-6A2.5 2.5 0 0 1 4 8.5z" />
+								<circle cx="12" cy="14" r="3.2" />
+							</svg>
+						</span>
+						<h2 className="text-lg font-semibold">Image Identifier</h2>
+					</div>
+					<div className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground underline underline-offset-4 transition-transform">
+						Open module <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+					</div>
+				</Link>
 			</section>
 
 			<section className="mx-auto max-w-5xl">
