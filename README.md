@@ -15,15 +15,34 @@ The backend computes stats (missing values + numeric min/max/mean) and sends onl
 
 ## Getting Started
 
-### 1) Install
+These steps work on Windows, macOS, and Linux. If you’re on Windows, use PowerShell.
+
+### 0) Prereqs
+
+- Node.js 18.17+ or 20+ (recommended). Verify with:
+
+```bash
+node -v
+```
+
+- Git installed and access to the repository.
+
+### 1) Clone the repo
+
+```bash
+git clone https://github.com/kaunghtet-thu/hackathon-team-2.git
+cd hackathon-team-2/astra-semi-ai-helper
+```
+
+### 2) Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2) Configure AI (recommended)
+### 3) Configure AI (optional, recommended)
 
-Create a file named `.env.local` in the project root (`astra-semi-ai-helper/.env.local`) and add:
+Create a file named `.env.local` in the app folder and add:
 
 ```bash
 OPENAI_API_KEY=your_key_here
@@ -31,19 +50,37 @@ OPENAI_API_KEY=your_key_here
 OPENAI_MODEL=gpt-4o-mini
 ```
 
-If `OPENAI_API_KEY` is not set, the app still works but uses a local (non-AI) fallback summary.
+If `OPENAI_API_KEY` is not set, the app still works and returns a safe fallback summary built from local stats.
 
-### 3) Run the dev server
-
-First, run the development server:
+### 4) Run in dev
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000
 
-Open http://localhost:3000 and upload a CSV.
+Go to /ops and upload a CSV to see the dashboard.
+
+### 5) Build for production (optional)
+
+```bash
+npm run build
+npm run start
+```
+
+This serves the optimized build on http://localhost:3000
+
+### Troubleshooting
+
+- If `npm run dev` fails from the monorepo root, make sure you’re in the app folder:
+
+```bash
+cd hackathon-team-2/astra-semi-ai-helper
+npm run dev
+```
+
+- Large CSVs may render slowly client-side. We can enable table virtualization later if needed.
 
 ### API endpoint
 
